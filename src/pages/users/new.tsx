@@ -11,15 +11,6 @@ import {
   VStack,
   useBreakpointValue,
   useToast,
-  type StepperProps,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogCloseButton,
-  AlertDialogBody,
-  AlertDialogFooter,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { FaSave } from 'react-icons/fa';
 import { t } from 'i18next';
@@ -43,18 +34,8 @@ const NewClient: React.FC = () => {
     },
   });
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef<any | null>(null);
-
   const variant = useBreakpointValue<StackProps>(
     { md: { w: '75%', mt: 8 }, base: { w: '100%' } },
-    { ssr: false, fallback: 'base' }
-  );
-
-  const variantStepper = useBreakpointValue<
-    Omit<StepperProps, 'index' | 'children'>
-  >(
-    { md: { w: '50%' }, base: { display: 'none' } },
     { ssr: false, fallback: 'base' }
   );
 
@@ -72,8 +53,6 @@ const NewClient: React.FC = () => {
       position: 'top-right',
     });
   };
-
-  console.log(methods.formState.errors);
 
   return (
     <>
