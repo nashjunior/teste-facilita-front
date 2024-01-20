@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      network: host
+    container_name: facilita-app-front
+    volumes:
+      - .:/home/node/app
+
