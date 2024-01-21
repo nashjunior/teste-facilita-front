@@ -7,6 +7,7 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
+  Text,
   Button,
   Heading,
   Modal,
@@ -17,6 +18,8 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
+  Flex,
+  Box,
 } from '@chakra-ui/react';
 import React from 'react';
 import DataTable from '../../components/datatable';
@@ -52,7 +55,8 @@ const Customers: React.FC = () => {
   const dialogDeleteUser = useDisclosure();
   const refUser = React.useRef<IUser | null>(null);
   const cancelRef = React.useRef<HTMLDialogElement | null>(null);
-  const refClientsRoutes = React.useRef<IUser[]>();
+  const refClientsRoutes = React.useRef<IUser[]>([]);
+  const [clientsRoutes, setClientsRoutes] = React.useState<IUser[]>([]);
 
   const methods = useForm<IFormUpdateUser>({
     resolver: yupResolver<any>(createUserSchema.concat(createCoordinateSchema)),
@@ -69,10 +73,10 @@ const Customers: React.FC = () => {
 
   const handleGetRoutes = async (): Promise<void> => {
     const { data } = await apiBase.get<IUser[]>('routes/generate');
-
-    refClientsRoutes.current = data;
+    setClientsRoutes(data);
   };
 
+  console.log(refClientsRoutes.current);
   const handleCloseModalGenerateRoutes = (): void => {
     refClientsRoutes.current = [];
     modalGenerateRoutes.onClose();
@@ -82,9 +86,20 @@ const Customers: React.FC = () => {
     data
   ): Promise<void> => {
     try {
+      const { coordinates } = data as ICreateCoordinate;
+      const [latitude, longitude] = coordinates || [undefined, undefined];
+      const updateData = {
+        ...data,
+        latitude,
+        longitude,
+      };
       await dispatch(
-        updateClient({ id: selectedClientId.current as string, ...data }) as any
+        updateClient({
+          id: selectedClientId.current as string,
+          ...updateData,
+        }) as any
       );
+
       methods.reset({ coordinates: [] });
       toast({
         title: t('toastSucessCreateClientTitle'),
@@ -190,10 +205,55 @@ const Customers: React.FC = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Route order</ModalHeader>
+          <ModalHeader>Route Order</ModalHeader>
           <ModalCloseButton />
 
-          <ModalBody>asdfasf</ModalBody>
+          <ModalBody>
+            <Flex direction="column" align="center" padding={20}>
+              {clientsRoutes.map((client, index) => (
+                <Flex key={client.id} direction="column" mb={4}>
+                  <Flex align="center">
+                    <Box position="relative">
+                      <Box
+                        width="30px"
+                        height="30px"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        bg="telegram.500"
+                        color="white"
+                        borderRadius="full"
+                        zIndex="docked"
+                      >
+                        <Text fontSize="sm" fontWeight="bold">
+                          {index + 1}
+                        </Text>
+                      </Box>
+                      <Box
+                        ml={8}
+                        position="absolute"
+                        left="100%"
+                        top="50%"
+                        transform="translateY(-50%)"
+                        maxWidth="calc(100vw - 96px)" // Ajuste a largura máxima conforme necessário
+                      >
+                        <Text
+                          fontSize="md"
+                          fontWeight="bold"
+                          overflowWrap="break-word"
+                        >
+                          {client.name}
+                        </Text>
+                      </Box>
+                    </Box>
+                  </Flex>
+                  {index < clientsRoutes.length - 1 && (
+                    <Box width="2px" height="20px" bg="gray.400" />
+                  )}
+                </Flex>
+              ))}
+            </Flex>
+          </ModalBody>
 
           <ModalFooter>
             <Button
