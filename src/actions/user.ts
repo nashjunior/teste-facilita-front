@@ -2,32 +2,30 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { type ICreateUser, type IUser } from '../definitions';
 import { apiBase } from '../config/api-base';
 
-interface IRequest {
-  user: ICreateUser;
-}
-
-export const signUp = createAsyncThunk(
+export const createClient = createAsyncThunk(
   'users/signup',
-  async (client: IRequest): Promise<IUser> => {
-    const user = {
-      name: client.user.name,
-      email: client.user.email,
-      cpf: client.user.cpf,
-      place: client.user.address,
-      number: client.user.number,
-      city: client.user.city,
-      state: client.user.state,
-    };
+  async (client: ICreateUser): Promise<IUser> => {
+    const { data } = await apiBase.post<IUser>('clients', client);
 
-    await apiBase.post('companies/create', user);
-
-    return { name: client.user.name, isLoggedIn: true };
+    return data;
   }
 );
 
-export const signIn = createAsyncThunk(
-  'users/signin',
-  async (): Promise<IUser> => {
-    return { name: '', isLoggedIn: false };
+export const updateClient = createAsyncThunk(
+  'users/update',
+  async ({
+    id,
+    ...formContent
+  }: ICreateUser & { id: string }): Promise<IUser> => {
+    const { data } = await apiBase.put<IUser>(`clients/${id}`, formContent);
+
+    return data;
+  }
+);
+
+export const deleteClient = createAsyncThunk(
+  'users/delete',
+  async (id: string): Promise<void> => {
+    await apiBase.delete<IUser>(`clients/${id}`);
   }
 );
