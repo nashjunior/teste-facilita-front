@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { type ICreateUser, type IUser } from '../definitions';
 import { apiBase } from '../config/api-base';
+import { ICreateCoordinate } from '../definitions/coordinate';
 
 export const createClient = createAsyncThunk(
   'users/signup',
@@ -17,7 +18,10 @@ export const updateClient = createAsyncThunk(
     id,
     ...formContent
   }: ICreateUser & { id: string }): Promise<IUser> => {
-    const { data } = await apiBase.put<IUser>(`clients/${id}`, formContent);
+    const { data } = await apiBase.put<IUser & ICreateCoordinate>(
+      `clients/${id}`,
+      formContent
+    );
 
     return data;
   }
