@@ -17,6 +17,7 @@ export const createUserSchema = yup
       .required(t('validation.required')),
     phoneNumber: yup
       .string()
+      .matches(/^\d+$/, t('validation.onlyNumbers'))
       .min(10, t('validation.min', { min: 10 }))
       .max(16, t('validation.max', { max: 16 }))
       .required(t('validation.required')),
