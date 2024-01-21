@@ -6,7 +6,7 @@ export const createUserSchema = yup
   .shape({
     name: yup
       .string()
-      .min(2, t('validation.min', { min: 2 }))
+      .trim()
       .max(255, t('validation.max', { max: 255 }))
       .required(t('validation.required')),
     email: yup
@@ -15,27 +15,10 @@ export const createUserSchema = yup
       .max(255, t('validation.max', { max: 255 }))
       .email()
       .required(t('validation.required')),
-    cpf: yup
+    phoneNumber: yup
       .string()
-      .length(11, t('validation.length', { length: 11 }))
-      .required()
-      .nullable(),
-    address: yup
-      .string()
-      .min(2, t('validation.min', { min: 2 }))
-      .max(255, t('validation.max', { max: 255 }))
+      .min(10, t('validation.min', { min: 10 }))
+      .max(16, t('validation.max', { max: 16 }))
       .required(t('validation.required')),
-    number: yup
-      .string()
-      .max(6, t('validation.max', { max: 6 }))
-      .required(t('validation.required'))
-      .nullable(),
-
-    zipCode: yup
-      .string()
-      .length(8)
-      .required(t('validation.required'))
-      .nullable(),
-    city: yup.string().required(t('validation.required')),
   })
   .required();
