@@ -65,9 +65,9 @@ const HeaderColumn: React.FC<IHeaderColumnProps> = ({
     >
       {text}
 
-      <Button {...buttonProps}>
+      {/* <Button {...buttonProps}>
         <Icon />
-      </Button>
+      </Button> */}
     </Flex>
   );
 };
