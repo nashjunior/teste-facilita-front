@@ -9,11 +9,6 @@ export const selectUserRequestStatus = createSelector(
   (state) => state.loading
 );
 
-export const selectUserSignInError = createSelector(
-  selectUsersState,
-  (state) => state.error
-);
-
 export const selectUser = createSelector(
   selectUsersState,
   (state) => state.user

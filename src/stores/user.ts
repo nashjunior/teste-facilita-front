@@ -1,15 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { type IUserState } from '../definitions';
-import { signUp } from '../actions';
+import { createClient } from '../actions';
 
 const initialState: IUserState = {
+  user: undefined as any,
   loading: false,
-  user: {
-    name: '',
-    isLoggedIn: true,
-  },
-  room: undefined as any,
-  toastMessage: undefined,
 };
 
 const usersSlice = createSlice({
@@ -18,17 +13,15 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signUp.pending, (state) => {
+      .addCase(createClient.pending, (state) => {
         state.loading = true;
       })
-      .addCase(signUp.fulfilled, (state, action) => {
+      .addCase(createClient.fulfilled, (state, action) => {
         state.loading = false;
-        state.toastMessage = 'Sucessfully signed up';
         state.user = action.payload;
       })
-      .addCase(signUp.rejected, (state, action) => {
+      .addCase(createClient.rejected, (state) => {
         state.loading = false;
-        state.error = action.error.message;
       });
   },
 });
