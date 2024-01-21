@@ -6,7 +6,10 @@ const LazyECommerceLayout = React.lazy(
   async () => await import('../components/layout/private/ecommerce')
 );
 
-const LazyClient = React.lazy(async () => await import('../pages/users/new'));
+const LazyNewUser = React.lazy(async () => await import('../pages/users/new'));
+const LazyHomeUser = React.lazy(
+  async () => await import('../pages/users/home')
+);
 
 const AppRoutes: React.FC = () => {
   return (
@@ -22,10 +25,19 @@ const AppRoutes: React.FC = () => {
         >
           <Route path="users">
             <Route
+              path=""
+              element={
+                <Suspense fallback={<div>Carregando...</div>}>
+                  <LazyHomeUser />
+                </Suspense>
+              }
+            />
+
+            <Route
               path="new"
               element={
                 <Suspense fallback={<div>Carregando...</div>}>
-                  <LazyClient />
+                  <LazyNewUser />
                 </Suspense>
               }
             />
