@@ -8,7 +8,7 @@ export const enUS = {
       matches: '{{name}} do not match',
       coordinate: 'Coordinate is a required field',
     },
-    newAccount: 'Create account', // Added missing translation
+    newAccount: 'Create account',
     advance: 'Advance',
     back: 'Back',
     email: 'Email',
