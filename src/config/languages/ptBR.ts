@@ -14,6 +14,7 @@ export const ptBR = {
     email: 'Email',
     name: 'Nome',
     phoneNumber: 'Número de telefone',
+    clientInfo: 'Informações do cliente',
     mandatoryInfo: 'Informações Obrigatórias',
     userInfo: 'User Info',
     edit: 'Editar',
@@ -37,5 +38,13 @@ export const ptBR = {
     dialogHeaderDeleteClient: 'Deletar cliente',
 
     dialogBodyDeleteClient: 'Tem certeza de deletar este cliente?',
+    sidebarTitleList: 'Listar',
+    sidebarTitleNew: 'Novo',
+    inputSearch: 'Search',
+    buttonGenerateRoutes: 'Gerar rota',
+    modalTitleGenerateRoute: 'Ordem da rota',
+
+    originCoordinate: 'Coordenada de origem',
+    selectedCoordinate: 'Coordenada de destino',
   },
 };

@@ -125,10 +125,11 @@ const Customers: React.FC = () => {
       {
         component: (
           <TextField
-            Label="pesquisar"
+            Label={t('inputSearch')}
             onChange={(e) => {
               setQueryValue(e.target.value === '' ? undefined : e.target.value);
             }}
+            key="inputsearch"
             value={queryValue}
           />
         ),
@@ -136,7 +137,7 @@ const Customers: React.FC = () => {
         value: queryValue,
       },
       {
-        component: <></>,
+        component: <React.Fragment key="queryFieldsSearchble" />,
         field: 'query_fields',
         value: 'c.name,c.email,c.phone_number',
       },
@@ -190,7 +191,7 @@ const Customers: React.FC = () => {
         colorScheme="telegram"
         onClick={modalGenerateRoutes.onOpen}
       >
-        Generate routes
+        {t('buttonGenerateRoutes')}
       </Button>
       <DataTable
         columns={columns}

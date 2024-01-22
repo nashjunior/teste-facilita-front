@@ -17,6 +17,7 @@ import { type IUser } from '../../definitions';
 import { apiBase } from '../../config/api-base';
 import { FaTimes } from 'react-icons/fa';
 import { TbTruckDelivery } from 'react-icons/tb';
+import { t } from 'i18next';
 
 type IProps = Omit<ModalProps, 'children'>;
 
@@ -44,7 +45,7 @@ export const ModalGenerateRoutes: React.FC<IProps> = ({
     <Modal isOpen={isOpen} onClose={handleCloseModal} {...rest}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Route Order</ModalHeader>
+        <ModalHeader>{t('modalTitleGenerateRoute')}</ModalHeader>
         <ModalCloseButton />
 
         <ModalBody alignSelf="center">

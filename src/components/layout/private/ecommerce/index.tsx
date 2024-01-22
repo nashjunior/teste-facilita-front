@@ -21,14 +21,15 @@ import Sidebar from '../sidebar';
 import { FaList, FaPlus, FaSignOutAlt, FaTimes, FaUser } from 'react-icons/fa';
 import { Header } from './header';
 import { Outlet } from 'react-router-dom';
+import { t } from 'i18next';
 
 const items = [
   {
     label: 'Clients',
     icon: FaUser,
     items: [
-      { label: 'Listar', to: '/users', icon: FaList },
-      { label: 'Novo', to: '/users/new', icon: FaPlus },
+      { label: t('sidebarTitleList'), to: '/users', icon: FaList },
+      { label: t('sidebarTitleNew'), to: '/users/new', icon: FaPlus },
     ],
   },
 ];
