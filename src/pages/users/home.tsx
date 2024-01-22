@@ -7,7 +7,6 @@ import {
   AlertDialogBody,
   AlertDialogFooter,
   useDisclosure,
-  Text,
   Button,
   Heading,
   Modal,
@@ -18,8 +17,6 @@ import {
   ModalHeader,
   ModalOverlay,
   useToast,
-  Flex,
-  Box,
 } from '@chakra-ui/react';
 import React from 'react';
 import DataTable from '../../components/datatable';
@@ -37,12 +34,17 @@ import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createUserSchema } from '../../validations';
 import { createCoordinateSchema } from '../../validations/create-coordinate';
-import { type ICreateCoordinate } from '../../definitions/coordinate';
+import {
+  type ICoordinate,
+  type ICreateCoordinate,
+} from '../../definitions/coordinate';
 import { FormCoordinate } from './form-coordinate';
 import { apiBase } from '../../config/api-base';
 import { TextField } from '../../components/form/textfield';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteClient, updateClient } from '../../actions';
+import { ModalGenerateRoutes } from './_modal-generate-routes';
+import { selectUserRequestStatus } from '../../selectors';
 
 type IFormUpdateUser = ICreateUser & ICreateCoordinate;
 
@@ -55,8 +57,7 @@ const Customers: React.FC = () => {
   const dialogDeleteUser = useDisclosure();
   const refUser = React.useRef<IUser | null>(null);
   const cancelRef = React.useRef<HTMLDialogElement | null>(null);
-  const refClientsRoutes = React.useRef<IUser[]>([]);
-  const [clientsRoutes, setClientsRoutes] = React.useState<IUser[]>([]);
+  const isLoading = useSelector(selectUserRequestStatus);
 
   const methods = useForm<IFormUpdateUser>({
     resolver: yupResolver<any>(createUserSchema.concat(createCoordinateSchema)),
@@ -71,15 +72,9 @@ const Customers: React.FC = () => {
 
   const selectedClientId = React.useRef<string | null>(null);
 
-  const handleGetRoutes = async (): Promise<void> => {
-    const { data } = await apiBase.get<IUser[]>('routes/generate');
-    setClientsRoutes(data);
-  };
-
-  console.log(refClientsRoutes.current);
-  const handleCloseModalGenerateRoutes = (): void => {
-    refClientsRoutes.current = [];
-    modalGenerateRoutes.onClose();
+  const handleCloseModalEditClient = (): void => {
+    methods.reset({ coordinates: [] });
+    modalEditClient.onClose();
   };
 
   const handleUpdateClient: SubmitHandler<IFormUpdateUser> = async (
@@ -87,7 +82,7 @@ const Customers: React.FC = () => {
   ): Promise<void> => {
     try {
       const { coordinates } = data as ICreateCoordinate;
-      const [latitude, longitude] = coordinates || [undefined, undefined];
+      const [latitude, longitude] = coordinates;
       const updateData = {
         ...data,
         latitude,
@@ -100,7 +95,6 @@ const Customers: React.FC = () => {
         }) as any
       );
 
-      methods.reset({ coordinates: [] });
       toast({
         title: t('toastSucessCreateClientTitle'),
         description: t('toastSucessCreateClientDescription'),
@@ -153,12 +147,24 @@ const Customers: React.FC = () => {
         {
           icon: <FaPencil />,
           tooltip: t('edit'),
-          getRow: (row) => {
-            selectedClientId.current = row.id;
-            methods.setValue('email', row.email);
-            methods.setValue('name', row.name);
-            methods.setValue('phoneNumber', row.phoneNumber);
-            modalEditClient.onOpen();
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          getRow: async (row): Promise<void> => {
+            try {
+              const {
+                data: { latitude, longitude },
+              } = await apiBase.get<ICoordinate>(
+                `clients/${row.id}/coordinates`
+              );
+
+              methods.setValue('coordinates', [latitude, longitude]);
+            } catch (error) {
+            } finally {
+              selectedClientId.current = row.id;
+              methods.setValue('email', row.email);
+              methods.setValue('name', row.name);
+              methods.setValue('phoneNumber', row.phoneNumber);
+              modalEditClient.onOpen();
+            }
           },
         },
         {
@@ -182,10 +188,7 @@ const Customers: React.FC = () => {
       <Button
         leftIcon={<FaRoute />}
         colorScheme="telegram"
-        onClick={() => {
-          void handleGetRoutes();
-          modalGenerateRoutes.onOpen();
-        }}
+        onClick={modalGenerateRoutes.onOpen}
       >
         Generate routes
       </Button>
@@ -199,79 +202,15 @@ const Customers: React.FC = () => {
         mb={12}
       />
 
-      <Modal
+      <ModalGenerateRoutes
         isOpen={modalGenerateRoutes.isOpen}
-        onClose={handleCloseModalGenerateRoutes}
+        onClose={modalGenerateRoutes.onClose}
+      />
+
+      <Modal
+        isOpen={modalEditClient.isOpen}
+        onClose={handleCloseModalEditClient}
       >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Route Order</ModalHeader>
-          <ModalCloseButton />
-
-          <ModalBody>
-            <Flex direction="column" align="center" padding={20}>
-              {clientsRoutes.map((client, index) => (
-                <Flex key={client.id} direction="column" mb={4}>
-                  <Flex align="center">
-                    <Box position="relative">
-                      <Box
-                        width="30px"
-                        height="30px"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        bg="telegram.500"
-                        color="white"
-                        borderRadius="full"
-                        zIndex="docked"
-                      >
-                        <Text fontSize="sm" fontWeight="bold">
-                          {index + 1}
-                        </Text>
-                      </Box>
-                      <Box
-                        ml={8}
-                        position="absolute"
-                        left="100%"
-                        top="50%"
-                        transform="translateY(-50%)"
-                        maxWidth="calc(100vw - 96px)" // Ajuste a largura máxima conforme necessário
-                      >
-                        <Text
-                          fontSize="md"
-                          fontWeight="bold"
-                          overflowWrap="break-word"
-                        >
-                          {client.name}
-                        </Text>
-                      </Box>
-                    </Box>
-                  </Flex>
-                  {index < clientsRoutes.length - 1 && (
-                    <Box width="2px" height="20px" bg="gray.400" />
-                  )}
-                </Flex>
-              ))}
-            </Flex>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              colorScheme="blue"
-              mr={3}
-              onClick={handleCloseModalGenerateRoutes}
-              leftIcon={<FaTimes />}
-            >
-              Close
-            </Button>
-            <Button colorScheme="green" leftIcon={<FaSave />} type="submit">
-              {t('save')}
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <Modal isOpen={modalEditClient.isOpen} onClose={modalEditClient.onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Edit client</ModalHeader>
@@ -292,12 +231,17 @@ const Customers: React.FC = () => {
                 <Button
                   colorScheme="blue"
                   mr={3}
-                  onClick={modalEditClient.onClose}
+                  onClick={handleCloseModalEditClient}
                   leftIcon={<FaTimes />}
                 >
                   Close
                 </Button>
-                <Button colorScheme="green" leftIcon={<FaSave />} type="submit">
+                <Button
+                  colorScheme="green"
+                  leftIcon={<FaSave />}
+                  type="submit"
+                  isLoading={isLoading}
+                >
                   {t('save')}
                 </Button>
               </ModalFooter>
@@ -335,6 +279,7 @@ const Customers: React.FC = () => {
               colorScheme="red"
               leftIcon={<FaTrash />}
               ml={3}
+              isLoading={isLoading}
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onClick={async () => {
                 await dispatch(
