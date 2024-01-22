@@ -40,7 +40,7 @@ export const ptBR = {
     dialogBodyDeleteClient: 'Tem certeza de deletar este cliente?',
     sidebarTitleList: 'Listar',
     sidebarTitleNew: 'Novo',
-    inputSearch: 'Search',
+    inputSearch: 'Pesquisar',
     buttonGenerateRoutes: 'Gerar rota',
     modalTitleGenerateRoute: 'Ordem da rota',
 
