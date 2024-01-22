@@ -215,7 +215,7 @@ export default function RemoteSourceDataTable<T>({
                     <HeaderColumn
                       field={field as string}
                       text={text}
-                      handleFieldSort={(sort) => {
+                      handleFieldSort={() => {
                         console.log('aqui');
                       }}
                       {...props}

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* @ts-expect-error will be used later */
+
 import { Button, type ButtonProps, Flex } from '@chakra-ui/react';
 import React, { useCallback, useState } from 'react';
 import { FaSortAmountUp, FaSortAmountDown } from 'react-icons/fa';
@@ -44,6 +47,7 @@ const HeaderColumn: React.FC<IHeaderColumnProps> = ({
     setIsActive(newSort !== 'OFF');
   }, [sort, handleFieldSort, field]);
 
+  /* @ts-expect-error will be used later */
   const buttonProps: ButtonProps = {
     size: 'sm',
     type: 'button',
@@ -51,6 +55,7 @@ const HeaderColumn: React.FC<IHeaderColumnProps> = ({
     colorScheme: isActive ? 'green' : undefined,
   };
 
+  /* @ts-expect-error will be used later */
   const Icon =
     sort === Sorts.OFF || sort === Sorts.ASC
       ? FaSortAmountUp

@@ -107,7 +107,7 @@ export const FormCoordinate: React.FC = () => {
         <Controller
           control={control}
           name="coordinates"
-          render={({ field: { value }, fieldState: { error } }) => {
+          render={({ field: { value } }) => {
             const coordinates =
               value?.[0] != null && value?.[1] != null
                 ? handleCoordinate(value?.[0], value?.[1])
