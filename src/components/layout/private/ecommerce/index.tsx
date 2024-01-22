@@ -18,21 +18,13 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import Sidebar from '../sidebar';
-import {
-  FaHome,
-  FaList,
-  FaPlus,
-  FaSignOutAlt,
-  FaTimes,
-  FaUser,
-} from 'react-icons/fa';
+import { FaList, FaPlus, FaSignOutAlt, FaTimes, FaUser } from 'react-icons/fa';
 import { Header } from './header';
 import { Outlet } from 'react-router-dom';
 
 const items = [
-  { label: 'Início', to: '/home', icon: FaHome },
   {
-    label: 'Users',
+    label: 'Clients',
     icon: FaUser,
     items: [
       { label: 'Listar', to: '/users', icon: FaList },
