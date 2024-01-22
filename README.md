@@ -1,30 +1,109 @@
-# React + TypeScript + Vite
+# Teste Vaga Facilita
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## This project is currently
 
-Currently, two official plugins are available:
+### under construction, and here's a brief overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Project Overview
 
-## Expanding the ESLint configuration
+### A company that cleans homes faces challenges in managing its customers and is looking for an efficient solution to register and visualize information that is currently controlled in spreadsheets. To centralize information and help the company expand, it wants a platform where it can manage its customers. The system must consist of a backend in Node.js using PostgreSQL as the database, and a frontend in React.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Relates To
 
-- Configure the top-level `parserOptions` property like this:
+- [Backend](https://github.com/nashjunior/teste-facilita)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Technologies used:
+
+- Chakr/UI.
+- Axios
+- Eslint
+- Prettier
+- Vite
+- @ReduxJS/Toolkit
+- I18n
+- Yup
+
+### Command to run FrontEnd (Requires NodeJS>=20)
+
+1. git checkout develop
+2. Install the packages
+    - npm
+      ```bash
+      npm i
+      ```
+    - yarn
+      ```bash
+      yarn
+      ```
+3. Set your .env like
+    ```bash
+    VITE_API_BASE_URL =http://<your-ip>:<your-port (default - 4000)>
+    ```
+4. Build the project
+    - npm
+      ```bash
+      npm run build
+      ```
+    - yarn
+      ```bash
+      yarn build
+      ```
+6. Run the project
+    - Production
+      ```bash
+      npx serve
+      ```
+    - Development
+      - npm
+        ```bash
+          npm run build
+        ```
+      - yarn
+        ```bash
+        yarn build
+        ```
+## Approach
+
+This api is constructed using a mono repo.
+See the api in
+```bash
+http://<your-ip>:<port>/documentation
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+### Folder structure
+
+```bash
+├── src
+│ ├── actions
+│ ├── components
+│ │ │ ├── datatable
+│ │ │ ├── form
+│ │ │ ├── layout
+│ ├── assets
+│ ├── config
+│ │ │ ├── languages
+│ ├── definitions
+│ ├── pages
+│ │ │ ├── users
+│ ├── routes
+│ ├── selectors
+│ ├── stores
+│ ├── validations
+│ ├── App.tsx
+│ ├── main.ts
+```
+
+- actions - action creators that can describe changes in the application state
+- components - the component folder
+  - layout - high order component that handles the default layout page
+- assets - store static assets such as images, fonts, stylesheets, or any other files that are    not part of the JavaScript source code
+- config - configurations folder
+  - languages - stores the internationalization of the application
+- definitions - the definitions folder where it is used for the whole applicaiton
+- pages - the application views
+- routes - the route logic
+- validations - where the field validation it is stored.
+- app.tsx - entry point for the main React application
+- main.tsx - start the main rendering process
+
