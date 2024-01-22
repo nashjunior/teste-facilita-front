@@ -35,5 +35,15 @@ export const enUS = {
 
     dialogHeaderDeleteClient: 'Delete client',
     dialogBodyDeleteClient: 'Are you sure to delete this client?',
+    sidebarTitleList: 'List',
+    sidebarTitleNew: 'New',
+    clientInfo: 'Client info',
+    inputSearch: 'Search',
+    buttonGenerateRoutes: 'Generate route',
+
+    modalTitleGenerateRoute: 'Route Order',
+
+    originCoordinate: 'Origin coordinate',
+    selectedCoordinate: 'Selected coordinate',
   },
 };

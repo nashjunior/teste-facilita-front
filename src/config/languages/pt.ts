@@ -15,7 +15,7 @@ export const pt = {
     name: 'Nome',
     phoneNumber: 'Número de telefone',
     mandatoryInfo: 'Informações Obrigatórias',
-    userInfo: 'User Info',
+    clientInfo: 'Informações do cliente',
     edit: 'Editar',
     delete: 'Deletar',
     roomList: 'Lista de Quartos',
@@ -36,5 +36,14 @@ export const pt = {
 
     dialogHeaderDeleteClient: 'Deletar cliente',
     dialogBodyDeleteClient: 'Tem certeza de deletar este cliente?',
+    sidebarTitleList: 'Listar',
+    sidebarTitleNew: 'Novo',
+    inputSearch: 'Search',
+    buttonGenerateRoutes: 'Gerar rota',
+
+    modalTitleGenerateRoute: 'Ordem da rota',
+
+    originCoordinate: 'Coordenada de origem',
+    selectedCoordinate: 'Coordenada de destino',
   },
 };

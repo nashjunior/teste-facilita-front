@@ -2,6 +2,7 @@ import React from 'react';
 import { type ICreateCoordinate } from '../../definitions/coordinate';
 import { Controller, type FieldError, useFormContext } from 'react-hook-form';
 import { Box, HStack, Text, VStack } from '@chakra-ui/react';
+import { t } from 'i18next';
 
 interface ICartesianPlan {
   x: number | null;
@@ -99,7 +100,7 @@ export const FormCoordinate: React.FC = () => {
         <HStack>
           <Box borderRadius="50%" bg="green" width={4} height={4} />
           <Text mt="2">
-            Coordenadas da origem: X={(0).toFixed(2)}, Y=
+            {t('originCoordinate')}: X={(0).toFixed(2)}, Y=
             {(0).toFixed(2)}
           </Text>
         </HStack>
@@ -117,7 +118,7 @@ export const FormCoordinate: React.FC = () => {
               <HStack mb={4}>
                 <Box borderRadius="50%" bg="red" width={4} height={4} />
                 <Text mt="2">
-                  Coordenada selecionada: X={coordinates?.x?.toFixed(2)}, Y=
+                  {t('selectedCoordinate')}: X={coordinates?.x?.toFixed(2)}, Y=
                   {coordinates?.y?.toFixed(2)}
                 </Text>
               </HStack>
