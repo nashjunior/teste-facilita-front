@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { type IUserState } from '../definitions';
-import { createClient } from '../actions';
+import { createClient, deleteClient, updateClient } from '../actions';
 
 const initialState: IUserState = {
   user: undefined as any,
@@ -21,6 +21,25 @@ const usersSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(createClient.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateClient.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(updateClient.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(deleteClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteClient.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(deleteClient.rejected, (state) => {
         state.loading = false;
       });
   },
